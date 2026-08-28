@@ -6,9 +6,7 @@ import type { ProductDetail } from "@/lib/types";
 // disappears into the tile the way the card artwork already does.
 import galleryBack from "@/public/images/product1/back-profile.webp";
 import galleryCamera from "@/public/images/product1/camera-plateau.webp";
-// NOTE: this file is misnamed in `public/images/products` — the artwork is the
-// iPhone 17 Pro, not a second Reno 15F shot.
-import galleryHero from "@/public/images/products/Oppo Reno 15F 12GB + 512GB - Twilight Blue-1.jpg";
+import galleryHero from "@/public/images/products/apple-iphone-17-pro-256gb-deep-blue.jpg";
 // Story artwork. `display.png` is a cut-out on transparency, so it sits on the
 // panel's own plate.
 import storyCamera from "@/public/images/product1/camera.png";

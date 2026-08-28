@@ -5,7 +5,7 @@ import type { Bank } from "@/lib/types";
 // every logo. The PNGs are lossless conversions of the same artwork.
 import cargills from "@/public/images/banks/cargils.png";
 import commercial from "@/public/images/banks/commercial.png";
-import nationsTrust from "@/public/images/banks/nation trust.png";
+import nationsTrust from "@/public/images/banks/nation-trust.png";
 import ndb from "@/public/images/banks/ndb.png";
 import peoples from "@/public/images/banks/peoples.png";
 import sampath from "@/public/images/banks/sampath.png";

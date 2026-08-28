@@ -1,17 +1,15 @@
 import type { Product } from "@/lib/types";
 
-import iphone16e from "@/public/images/products/Apple iPhone 16e 128GB - White.jpg";
-import iphoneAir from "@/public/images/products/Apple iPhone Air 256GB - Space Black.jpg";
-import jblTune500 from "@/public/images/products/JBL Tune 500 Wired On-Ear Headphone - Black.jpg";
-import mibroA2 from "@/public/images/products/Mibro A2 1.39 inch Round HD Screen Smart Watch - Black.jpg";
-import mibroC4 from "@/public/images/products/Mibro C4 2.01 inch Square HD Screen Smart Watch - Black.jpg";
-import motoG35 from "@/public/images/products/Motorola Moto G35 - Guava Red.jpg";
-import motoG45 from "@/public/images/products/Motorola Moto G45 - Brilliant Green.jpg";
-import renoTwilightBlue from "@/public/images/products/Oppo Reno 15F 12GB + 512GB - Twilight Blue.jpg";
-import sudioA1 from "@/public/images/products/Sudio (Sweden) A1 True Wireless Earbuds with Wireless Charging Case (Sky Blue).jpg";
-// NOTE: this file is misnamed in `public/images/products` — the artwork is the
-// iPhone 17 Pro, not a second Reno 15F shot.
-import iphone17Pro from "@/public/images/products/Oppo Reno 15F 12GB + 512GB - Twilight Blue-1.jpg";
+import iphone16e from "@/public/images/products/apple-iphone-16e-128gb-white.jpg";
+import iphoneAir from "@/public/images/products/apple-iphone-air-256gb-space-black.jpg";
+import jblTune500 from "@/public/images/products/jbl-tune-500-wired-on-ear-headphone-black.jpg";
+import mibroA2 from "@/public/images/products/mibro-a2-round-hd-smart-watch-black.jpg";
+import mibroC4 from "@/public/images/products/mibro-c4-square-hd-smart-watch-black.jpg";
+import motoG35 from "@/public/images/products/motorola-moto-g35-guava-red.jpg";
+import motoG45 from "@/public/images/products/motorola-moto-g45-brilliant-green.jpg";
+import renoTwilightBlue from "@/public/images/products/oppo-reno-15f-12gb-512gb-twilight-blue.jpg";
+import sudioA1 from "@/public/images/products/sudio-a1-true-wireless-earbuds-sky-blue.jpg";
+import iphone17Pro from "@/public/images/products/apple-iphone-17-pro-256gb-deep-blue.jpg";
 
 const ABANS_STORE = "https://www.abansonline.com";
 
