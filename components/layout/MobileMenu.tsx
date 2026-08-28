@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 import { CloseIcon } from "@/components/ui/Icons";
-import { Button } from "@/components/ui/Button";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { primaryNav } from "@/lib/data/nav";
 import { duration, easeOut, sheetLink, stagger } from "@/lib/motion";
@@ -79,20 +78,6 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                 </Link>
               </motion.div>
             ))}
-
-            <motion.div variants={sheetLink} className="mt-10 flex flex-col gap-3">
-              <Button href="/products" size="lg" className="w-full">
-                Shop All Smartphones
-              </Button>
-              <Button
-                href="/stores"
-                variant="secondary"
-                size="lg"
-                className="w-full"
-              >
-                Find A Store
-              </Button>
-            </motion.div>
           </motion.nav>
         </motion.div>
       ) : null}
