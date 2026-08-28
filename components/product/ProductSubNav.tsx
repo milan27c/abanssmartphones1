@@ -29,10 +29,9 @@ export interface ProductSubNavProps {
  * The bar that takes over once the fold has scrolled away: what you are
  * looking at, what it costs, and a jump list for the long page below.
  *
- * It sits in flow directly after the fold, so it simply arrives and pins under
- * the site navbar. The jump list shows from the start; the title, price and
- * Buy button only fade in once the fold's own Buy block has scrolled out of
- * sight, so the two are never on screen together.
+ * Tablet and up only — it pins under the site navbar. Below `md` there is no
+ * room for the jump list, the title, the price and a button at once, so the
+ * bar is simply left out and the page reads without it.
  */
 export function ProductSubNav({
   productTitle,
@@ -45,7 +44,7 @@ export function ProductSubNav({
   const reducedMotion = useReducedMotion();
 
   return (
-    <div className="sticky top-14 z-30 border-b border-line bg-page/80 backdrop-blur-[20px]">
+    <div className="sticky top-14 z-30 hidden border-b border-line bg-page/80 backdrop-blur-[20px] md:block">
       <Container>
         <AnimatePresence initial={false}>
           {showBuyRow ? (
@@ -60,10 +59,7 @@ export function ProductSubNav({
               }}
               className="flex h-14 items-center justify-between gap-4 sm:h-16"
             >
-              <p
-                className="truncate text-body text-ink-1"
-                title={productTitle}
-              >
+              <p className="truncate text-body text-ink-1" title={productTitle}>
                 {productTitle}
               </p>
 
@@ -137,9 +133,7 @@ function useFoldCtaPassed(): boolean {
     const observer = new IntersectionObserver(
       ([entry]) => {
         // Above the fold line, not merely off to one side.
-        setPassed(
-          !entry.isIntersecting && entry.boundingClientRect.top < 0,
-        );
+        setPassed(!entry.isIntersecting && entry.boundingClientRect.top < 0);
       },
       { threshold: 0 },
     );

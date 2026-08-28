@@ -499,6 +499,13 @@
 /* A snapping rail must repeat the gutter as scroll-padding, or `snap-start`
    aligns the first card to the scrollport edge and eats it. */
 @utility rail-scroller {
+  /* Keep the rail's scrollable overflow to itself. Without this, a rail that
+     sits directly under a section (no width-capped wrapper) leaks its full
+     scroll width into `documentElement.scrollWidth`; mobile browsers read
+     that as real overflow and widen the layout viewport, leaving dead space
+     to the right of the page when it is zoomed out. */
+  contain: layout;
+
   scroll-padding-inline: 1.25rem;
 
   @media (width >= 48rem) {
@@ -697,14 +704,20 @@
   scroll-margin-top: 10rem;
 }
 
-/* --- Instalment plan dialog -----------------------------------------------
+/* --- Instalment plan dialog -------------------------------------------------
    Native `<dialog>` carries the focus trap, the Escape key and the top layer;
-   only the chrome and the entrance are ours. Opacity and transform only, and
-   the global reduced-motion block collapses both to nothing. */
+   only the chrome and the entrance are ours. On phones it docks to the bottom
+   edge and slides up — a drawer. Past `md` it becomes a centred popup that
+   fades and scales in. Opacity and transform only, and the global
+   reduced-motion block collapses both to nothing. */
 
 @utility plan-dialog {
+  /* Width, docking and radius live on the element's utility classes (a
+     full-bleed bottom drawer on phones, a centred popup past `md`) so the
+     split stays legible there and always beats the native `<dialog>`
+     defaults. Here we own only the entrance. */
   opacity: 0;
-  transform: translateY(8px) scale(0.98);
+  transform: translateY(100%);
   transition:
     opacity var(--dur-base) var(--ease-out),
     transform var(--dur-base) var(--ease-out),
@@ -713,11 +726,11 @@
 
   &[open] {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
 
     @starting-style {
       opacity: 0;
-      transform: translateY(8px) scale(0.98);
+      transform: translateY(100%);
     }
   }
 
@@ -735,6 +748,20 @@
 
     @starting-style {
       opacity: 0;
+    }
+  }
+
+  /* Past `md` the popup fades and scales instead of sliding up. */
+  @media (width >= 48rem) {
+    transform: scale(0.96);
+
+    &[open] {
+      transform: scale(1);
+
+      @starting-style {
+        opacity: 0;
+        transform: scale(0.96);
+      }
     }
   }
 }

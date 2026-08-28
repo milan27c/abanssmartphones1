@@ -18,8 +18,10 @@ const headerCell = "py-3 text-left text-body-sm font-medium text-ink-3";
 const cell = "py-3 text-body-sm text-ink-1 tabular-nums";
 
 /**
- * Every tenor a bank runs, priced against this product. Native `<dialog>`,
- * so Escape, the focus trap and the top layer come for free.
+ * Every tenor a bank runs, priced against this product. Built on native
+ * `<dialog>`, so Escape, the focus trap and the top layer come for free; the
+ * chrome and the entrance are ours (see `plan-dialog`) — a bottom drawer on
+ * phones, a centred popup past `md`.
  */
 export function PlanDialog({ bank, price, onClose }: PlanDialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -42,10 +44,15 @@ export function PlanDialog({ bank, price, onClose }: PlanDialogProps) {
       onClick={(event) => {
         if (event.target === ref.current) onClose();
       }}
-      className="plan-dialog m-auto w-[min(42rem,calc(100vw-2rem))] rounded-xl bg-surface-alt p-0 text-ink-2 shadow-lg"
+      className="plan-dialog m-0 mt-auto max-h-[85svh] w-full max-w-full overflow-hidden rounded-t-xl bg-surface-alt p-0 text-ink-2 shadow-lg md:m-auto md:w-[40rem] md:max-w-[calc(100%-2rem)] md:rounded-xl"
     >
       {bank ? (
-        <div className="max-h-[calc(100svh-4rem)] overflow-y-auto p-6 sm:p-8">
+        <div className="max-h-[85svh] overflow-y-auto px-6 pt-4 pb-8 sm:px-8 md:pt-8">
+          <span
+            aria-hidden="true"
+            className="mx-auto mb-4 block h-1 w-10 rounded-pill bg-line-strong md:hidden"
+          />
+
           <div className="flex items-start justify-between gap-6">
             <div>
               <h2 id="plan-dialog-title" className="text-h4 text-ink-1">

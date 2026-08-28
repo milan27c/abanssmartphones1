@@ -98,10 +98,10 @@ export function ProductFilters({
 
         {hideBrand ? null : (
           <FilterSection title="Brand">
-            <ul>
+            <ul className="grid grid-cols-3 gap-2">
               {facets.brands.map((option) => (
                 <li key={option.value}>
-                  <BrandOption query={query} option={option} />
+                  <BrandTile query={query} option={option} />
                 </li>
               ))}
             </ul>
@@ -213,53 +213,50 @@ function CategoryOption({ query, option }: CategoryOptionProps) {
   );
 }
 
-interface BrandOptionProps {
+interface BrandTileProps {
   query: ProductQuery;
   option: FacetOption<BrandSlug | "all">;
 }
 
 /**
- * One brand per row. Brand is a single choice, so it wears the same circular
- * marker as Category — the logo sits in a fixed slot beside it, which keeps the
- * names on one vertical edge and lets the list be scanned by mark alone.
+ * Brand as a compact logo tile in a 3-up grid. Brand is a single choice, so the
+ * active tile is ringed in primary; a tile with nothing left to show sits muted
+ * and inert. The "All Brands" sentinel has no mark, so it wears its label.
  */
-function BrandOption({ query, option }: BrandOptionProps) {
+function BrandTile({ query, option }: BrandTileProps) {
   const active = option.value === query.brand;
   const empty = option.count === 0 && !active;
   const logo = option.value === "all" ? null : logoBySlug.get(option.value);
 
-  const body = (
-    <>
-      <Marker checked={active} shape="circle" muted={empty} />
-      <span className="flex w-9 shrink-0 items-center justify-center">
-        {logo ? (
-          <Image
-            src={logo}
-            alt=""
-            sizes="40px"
-            className={cn(
-              "plate-blend h-4 w-9 object-contain transition-[filter,opacity] transition-fast",
-              empty ? "opacity-40 grayscale" : active ? "" : "opacity-80 group-hover:opacity-100",
-            )}
-          />
-        ) : null}
-      </span>
-      <span
-        className={cn(
-          "text-body transition-colors transition-fast",
-          empty
-            ? "text-ink-4"
-            : active
-              ? "text-ink-1"
-              : "text-ink-2 group-hover:text-ink-1",
-        )}
-      >
-        {option.label}
-      </span>
-      <span className="ml-auto text-body-sm text-ink-4 tabular-nums">
-        {option.count}
-      </span>
-    </>
+  const tile = cn(
+    "flex h-16 items-center justify-center rounded-md border px-3",
+    "transition-[background-color,border-color] transition-fast",
+    active
+      ? "border-primary-600 bg-primary-50"
+      : empty
+        ? "cursor-not-allowed border-line bg-surface/60"
+        : "border-line bg-surface-alt hover:border-ink-3",
+  );
+
+  const body = logo ? (
+    <Image
+      src={logo}
+      alt=""
+      sizes="64px"
+      className={cn(
+        "plate-blend h-10 w-full object-contain transition-[filter,opacity] transition-fast",
+        empty ? "opacity-40 grayscale" : active ? "" : "opacity-80",
+      )}
+    />
+  ) : (
+    <span
+      className={cn(
+        "text-body-sm font-medium",
+        empty ? "text-ink-4" : active ? "text-primary-700" : "text-ink-2",
+      )}
+    >
+      {option.label === "All Brands" ? "All" : option.label}
+    </span>
   );
 
   if (empty) {
@@ -267,7 +264,7 @@ function BrandOption({ query, option }: BrandOptionProps) {
       <span
         aria-disabled="true"
         title={`No ${option.label} products match the current filters`}
-        className="flex cursor-not-allowed items-center gap-3 py-2"
+        className={tile}
       >
         {body}
       </span>
@@ -278,8 +275,9 @@ function BrandOption({ query, option }: BrandOptionProps) {
     <Link
       href={listingHref(query, { brand: option.value })}
       scroll={false}
+      aria-label={option.label}
       aria-current={active ? "true" : undefined}
-      className="group flex items-center gap-3 py-2"
+      className={tile}
     >
       {body}
     </Link>
