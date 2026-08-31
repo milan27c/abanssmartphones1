@@ -1,11 +1,13 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 
 import { CloseIcon } from "@/components/ui/Icons";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { brands } from "@/lib/data/brands";
 import { primaryNav } from "@/lib/data/nav";
 import { duration, easeOut, sheetLink, stagger } from "@/lib/motion";
 
@@ -13,6 +15,12 @@ interface MobileMenuProps {
   open: boolean;
   onClose: () => void;
 }
+
+/** Audio and wearable labels — kept out of the handset quick-filter. */
+const nonPhoneBrands = new Set(["jbl", "sudio", "mibro"]);
+
+/** Handset makers only, in grid order: a clean 3 x 3 under Smartphones. */
+const phoneBrands = brands.filter((brand) => !nonPhoneBrands.has(brand.slug));
 
 /** Full-screen sheet. Links enter on a stagger behind the panel. */
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
@@ -78,11 +86,51 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                 >
                   {link.label}
                 </Link>
+
+                {link.label === "Smartphones" ? (
+                  <MobileBrandGrid onNavigate={onClose} />
+                ) : null}
               </motion.div>
             ))}
           </motion.nav>
         </motion.div>
       ) : null}
     </AnimatePresence>
+  );
+}
+
+interface MobileBrandGridProps {
+  onNavigate: () => void;
+}
+
+/**
+ * A 3-per-row plate of handset logos below the Smartphones link, so a shopper
+ * can jump straight into a brand-filtered listing from the sheet.
+ */
+function MobileBrandGrid({ onNavigate }: MobileBrandGridProps) {
+  return (
+    <div className="border-b border-line py-5">
+      <p className="text-label uppercase text-ink-3">Shop By Brand</p>
+      <ul className="mt-4 grid grid-cols-3 gap-2">
+        {phoneBrands.map((brand) => (
+          <li key={brand.slug}>
+            <Link
+              href={`/products?brand=${brand.slug}`}
+              onClick={onNavigate}
+              aria-label={brand.name}
+              className="flex aspect-[3/2] items-center justify-center rounded-lg bg-surface p-4 transition-[background-color] transition-fast active:bg-line"
+            >
+              <Image
+                src={brand.logo}
+                alt=""
+                placeholder="blur"
+                sizes="120px"
+                className="plate-blend h-full w-full object-contain"
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
