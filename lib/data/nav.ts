@@ -13,7 +13,6 @@ export const primaryNav: NavLink[] = [
   {
     label: "Pay Monthly",
     href: "https://abansmonthlypay.vercel.app/",
-    external: true,
   },
   { label: "Offers", href: "/products?filter=offers" },
   { label: "Contact", href: "/contact" },
