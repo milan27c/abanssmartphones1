@@ -50,13 +50,13 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="fixed inset-0 z-50 bg-page lg:hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-page lg:hidden"
           initial={{ opacity: 0, y: reduced ? 0 : -12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: reduced ? 0 : -12 }}
           transition={{ duration: duration.base, ease: easeOut }}
         >
-          <div className="container-page flex h-16 items-center justify-end">
+          <div className="container-page flex h-16 shrink-0 items-center justify-end">
             <button
               type="button"
               onClick={onClose}
@@ -69,7 +69,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           </div>
 
           <motion.nav
-            className="container-page mt-4 flex flex-col"
+            className="container-page mt-4 flex flex-1 flex-col overflow-y-auto overscroll-contain pb-10"
             variants={reduced ? stagger(0, 0) : stagger(0.06, 0.12)}
             initial="hidden"
             animate="show"
