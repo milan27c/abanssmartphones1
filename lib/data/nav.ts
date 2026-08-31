@@ -8,9 +8,14 @@ import type {
 
 export const primaryNav: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "Products", href: "/products" },
-  { label: "Blog", href: "/blog" },
-  { label: "Pay Monthly", href: "/support/payment-plans" },
+  { label: "Smartphones", href: "/products?category=smartphones" },
+  { label: "Accessories", href: "/products?category=accessories" },
+  {
+    label: "Pay Monthly",
+    href: "https://abansmonthlypay.vercel.app/",
+    external: true,
+  },
+  { label: "Offers", href: "/products?filter=offers" },
   { label: "Contact", href: "/contact" },
 ];
 

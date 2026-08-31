@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { IconButton } from "@/components/ui/IconButton";
@@ -15,6 +15,69 @@ import logo from "@/public/images/logo.png";
 
 /** Past this many pixels the bar condenses and picks up its blur plate. */
 const CONDENSE_AT = 24;
+
+/**
+ * A nav item is active when the current path sits under its href *and* every
+ * query pair the href pins is present. That lets `Smartphones`, `Accessories`
+ * and `Offers` all point at `/products` yet light up one at a time.
+ */
+function isNavActive(
+  href: string,
+  pathname: string,
+  params: URLSearchParams | null,
+): boolean {
+  if (href === "/") return pathname === "/";
+  if (/^https?:\/\//.test(href)) return false;
+
+  const [path, query] = href.split("?");
+  if (!pathname.startsWith(path)) return false;
+  if (!query) return true;
+  if (!params) return false;
+
+  const wanted = new URLSearchParams(query);
+  for (const [key, value] of wanted) {
+    if (params.get(key) !== value) return false;
+  }
+  return true;
+}
+
+interface NavLinksProps {
+  pathname: string;
+  params: URLSearchParams | null;
+}
+
+function NavLinks({ pathname, params }: NavLinksProps) {
+  return (
+    <ul className="flex items-center gap-8">
+      {primaryNav.map((link) => {
+        const active = isNavActive(link.href, pathname, params);
+
+        return (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              aria-current={active ? "page" : undefined}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
+              className={cn(
+                "link-underline text-body-sm transition-colors transition-fast",
+                active ? "text-primary-600" : "text-ink-2 hover:text-ink-1",
+              )}
+            >
+              {link.label}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+/** Split out so `useSearchParams` sits behind its own Suspense boundary. */
+function NavLinksWithParams({ pathname }: { pathname: string }) {
+  const params = useSearchParams();
+  return <NavLinks pathname={pathname} params={params} />;
+}
 
 export function Navbar() {
   const [condensed, setCondensed] = useState(false);
@@ -62,31 +125,9 @@ export function Navbar() {
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">
-            <ul className="flex items-center gap-8">
-              {primaryNav.map((link) => {
-                const active =
-                  link.href === "/"
-                    ? pathname === "/"
-                    : pathname.startsWith(link.href.split("?")[0]);
-
-                return (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      aria-current={active ? "page" : undefined}
-                      className={cn(
-                        "link-underline text-body-sm transition-colors transition-fast",
-                        active
-                          ? "text-primary-600"
-                          : "text-ink-2 hover:text-ink-1",
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+            <Suspense fallback={<NavLinks pathname={pathname} params={null} />}>
+              <NavLinksWithParams pathname={pathname} />
+            </Suspense>
           </nav>
 
           <div className="flex items-center gap-1">

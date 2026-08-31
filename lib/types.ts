@@ -104,6 +104,8 @@ export interface TrustItem {
 export interface NavLink {
   label: string;
   href: string;
+  /** Absolute URL to an external site — opens in a new tab. */
+  external?: boolean;
 }
 
 export interface FooterColumn {

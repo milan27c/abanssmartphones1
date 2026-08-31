@@ -72,6 +72,8 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                 <Link
                   href={link.href}
                   onClick={onClose}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
                   className="block border-b border-line py-5 text-h3 text-ink-1 transition-colors transition-fast hover:text-primary-600"
                 >
                   {link.label}
