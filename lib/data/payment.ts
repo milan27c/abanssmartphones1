@@ -31,8 +31,6 @@ export const paymentPartners: PaymentPartner[] = [
 /** Every plan above runs to the same standard term. */
 export const INSTALMENT_MONTHS = 12;
 
-export const DEFAULT_MONTHLY_BUDGET = 10000;
-
 /** Rupee amounts a shopper is most likely to reach for. */
 export const budgetQuickPicks = [
   2000, 5000, 7500, 10000, 15000, 20000, 25000,
@@ -61,19 +59,49 @@ export function planMonthly(price: number, plan: InstalmentPlan): number {
   return monthlyOver(planTotal(price, plan), plan.months);
 }
 
-/** The smallest instalment in the catalogue — the floor for the budget field. */
+/**
+ * Monthly pay is pitched on phones, so the budget field only ever answers with
+ * phones — accessories and wearables stay out of this section entirely.
+ */
+const payableDevices = products.filter(
+  (product) => product.category === "smartphone",
+);
+
+/** The home shortlist is four cards wide — a shortlist, not the catalogue. */
+export const PAY_EASY_SHORTLIST = 4;
+
+/** The default is rounded to a step this coarse so it lands on a quick pick. */
+const BUDGET_STEP = 2500;
+
+/**
+ * The budget a shopper starts on: the smallest round figure whose shortlist is
+ * four phones deep, so the section opens on a full row. Derived rather than
+ * typed in, so it follows the catalogue instead of going stale beside it.
+ */
+export const DEFAULT_MONTHLY_BUDGET = (() => {
+  const instalments = payableDevices
+    .map((product) => monthlyInstalment(product.price))
+    .sort((a, b) => a - b);
+
+  const fillsTheRow =
+    instalments[PAY_EASY_SHORTLIST - 1] ?? instalments.at(-1) ?? 0;
+
+  return Math.ceil(fillsTheRow / BUDGET_STEP) * BUDGET_STEP;
+})();
+
+/** The smallest phone instalment we run — the floor for the budget field. */
 export const lowestInstalment = Math.min(
-  ...products.map((product) => monthlyInstalment(product.price)),
+  ...payableDevices.map((product) => monthlyInstalment(product.price)),
 );
 
 /**
- * Everything a monthly budget covers, most expensive first — a shopper wants
+ * Every phone a monthly budget covers, most expensive first — a shopper wants
  * the best device the budget reaches, not the cheapest.
  */
 export function devicesWithinBudget(monthlyBudget: number): Product[] {
   if (monthlyBudget <= 0) return [];
 
-  return products
+  return payableDevices
     .filter((product) => monthlyInstalment(product.price) <= monthlyBudget)
     .sort((a, b) => b.price - a.price);
 }

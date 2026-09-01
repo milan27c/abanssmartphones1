@@ -15,6 +15,7 @@ import { cn } from "@/lib/cn";
 import {
   DEFAULT_MONTHLY_BUDGET,
   INSTALMENT_MONTHS,
+  PAY_EASY_SHORTLIST,
   budgetQuickPicks,
   devicesWithinBudget,
   lowestInstalment,
@@ -25,9 +26,6 @@ import { formatLKR } from "@/lib/format";
 import { duration, easeOut } from "@/lib/motion";
 
 import payEasyBackdrop from "@/public/images/payeasy.jpg";
-
-/** Four cards at most — the point is a shortlist, not the whole catalogue. */
-const SHORTLIST = 4;
 
 const GRID_SIZES =
   "(min-width: 1280px) 302px, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 62vw";
@@ -51,7 +49,7 @@ export function PayEasy() {
   const display = entered === "" ? "" : budget.toLocaleString("en-US");
 
   const affordable = useMemo(() => devicesWithinBudget(budget), [budget]);
-  const shortlist = affordable.slice(0, SHORTLIST);
+  const shortlist = affordable.slice(0, PAY_EASY_SHORTLIST);
 
   const { scrollYProgress } = useScroll({
     target: ref,
