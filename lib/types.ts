@@ -58,6 +58,8 @@ export interface HeroSlide {
   href: string;
   /** Short label for the carousel's progress indicator. */
   indicatorLabel: string;
+  /** Kept in the data but withheld from the carousel. */
+  hidden?: boolean;
 }
 
 export interface Offer {

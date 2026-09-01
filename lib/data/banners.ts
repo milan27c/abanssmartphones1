@@ -17,7 +17,7 @@ import offer3 from "@/public/images/banner3.png";
  * Hero artwork ships with its headline baked in, so the slides carry no
  * overlaid copy — `alt` is what a screen reader gets instead.
  */
-export const heroSlides: HeroSlide[] = [
+const allHeroSlides: HeroSlide[] = [
   {
     id: "easy-payment",
     alt: "Pay in easy instalments over 12 months. Walk into your nearest Abans for Apple, Redmi, TECNO, Motorola, realme, itel, vivo, Infinix and OPPO smartphones.",
@@ -41,6 +41,7 @@ export const heroSlides: HeroSlide[] = [
     mobile: hero3m,
     href: "/products?brand=redmi",
     indicatorLabel: "Redmi 15C",
+    hidden: true,
   },
   {
     id: "realme-c85",
@@ -49,8 +50,14 @@ export const heroSlides: HeroSlide[] = [
     mobile: hero4m,
     href: "/products?brand=realme",
     indicatorLabel: "realme C85",
+    hidden: true,
   },
 ];
+
+/** Flip a slide's `hidden` flag in `allHeroSlides` to bring it back. */
+export const heroSlides: HeroSlide[] = allHeroSlides.filter(
+  (slide) => !slide.hidden,
+);
 
 export const offers: Offer[] = [
   {
