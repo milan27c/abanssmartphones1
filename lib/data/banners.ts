@@ -4,8 +4,8 @@ import hero1 from "@/public/images/hero/hero-section-2B.png";
 import hero1m from "@/public/images/hero/hero-section-Mobile.png";
 import hero2 from "@/public/images/hero/hero-section-3B.png";
 import hero2m from "@/public/images/hero/hero-section-Mobile-2.png";
-import hero3 from "@/public/images/hero/hero3.png";
-import hero3m from "@/public/images/hero/hero3m.png";
+import hero3 from "@/public/images/hero/hero-section-4B.png";
+import hero3m from "@/public/images/hero/hero-section-Mobile-3.png";
 import hero4 from "@/public/images/hero/hero4.png";
 import hero4m from "@/public/images/hero/hero4m.png";
 
@@ -35,13 +35,12 @@ const allHeroSlides: HeroSlide[] = [
     indicatorLabel: "realme 15 Pro",
   },
   {
-    id: "redmi-15c",
-    alt: "Rise beyond limits with the Xiaomi Redmi 15C, available at Abans Smartphones.",
+    id: "iphone-17-pro",
+    alt: "iPhone 17 Pro. Power that moves with you — now at Abans Smartphones.",
     desktop: hero3,
     mobile: hero3m,
-    href: "/products?brand=redmi",
-    indicatorLabel: "Redmi 15C",
-    hidden: true,
+    href: "/products?brand=apple",
+    indicatorLabel: "iPhone 17 Pro",
   },
   {
     id: "realme-c85",
