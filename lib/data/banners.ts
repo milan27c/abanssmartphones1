@@ -1,7 +1,7 @@
 import type { HeroSlide, Offer } from "@/lib/types";
 
 import hero1 from "@/public/images/hero/herosection1.png";
-import hero1m from "@/public/images/hero/herom1.png";
+import hero1m from "@/public/images/hero/hero-section-Mobile.png";
 import hero2 from "@/public/images/hero/hero2.png";
 import hero2m from "@/public/images/hero/hero2m.png";
 import hero3 from "@/public/images/hero/hero3.png";
