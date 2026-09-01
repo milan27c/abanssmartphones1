@@ -6,9 +6,9 @@ import { brands } from "@/lib/data/brands";
 
 export function BrandMarquee() {
   return (
-    // The marquee closes straight into Best Sellers, whose own top rhythm
-    // carries most of that seam — so the band's bottom sits a step tighter
-    // on mobile.
+    // The marquee closes straight into Best Sellers, which carries the rest
+    // of that seam on its own top rhythm — so the band's bottom sits a step
+    // tighter on mobile.
     <Section
       size="compact"
       aria-label="Brands We Carry"
