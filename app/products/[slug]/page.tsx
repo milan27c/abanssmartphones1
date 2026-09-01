@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/Container";
+import { AbansEasyPayments } from "@/components/product/AbansEasyPayments";
+import { CardPayments } from "@/components/product/CardPayments";
 import { FaqAccordion } from "@/components/product/FaqAccordion";
 import { FeatureStories } from "@/components/product/FeatureStories";
 import { InquiryForm } from "@/components/product/InquiryForm";
-import { InstalmentPlans } from "@/components/product/InstalmentPlans";
 import { KeyFeatures } from "@/components/product/KeyFeatures";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductSubNav } from "@/components/product/ProductSubNav";
@@ -102,9 +103,15 @@ export default async function ProductPage(
         inStock={product.inStock}
       />
 
-      <InstalmentPlans
-        id={productSectionIds.easyPayments}
+      <CardPayments
+        id={productSectionIds.cardPayments}
         price={product.price}
+      />
+
+      <AbansEasyPayments
+        id={productSectionIds.abansEasyPayments}
+        price={product.price}
+        slug={product.slug}
       />
 
       <KeyFeatures

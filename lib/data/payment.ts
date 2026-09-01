@@ -77,3 +77,42 @@ export function devicesWithinBudget(monthlyBudget: number): Product[] {
     .filter((product) => monthlyInstalment(product.price) <= monthlyBudget)
     .sort((a, b) => b.price - a.price);
 }
+
+/** The longest tenor any partner runs — the ceiling for a derived plan. */
+export const MAX_PLAN_MONTHS = 60;
+
+/** Where an enquiry lands: the Abans monthly-pay application. */
+const MONTHLY_PAY_APPLY = "https://abansmonthlypay.vercel.app/apply";
+
+/**
+ * How long a monthly budget takes to clear a device, rounded up so the last
+ * instalment is never short. Returns 0 when the budget cannot reach it inside
+ * the longest tenor we run.
+ */
+export function monthsToClear(price: number, monthlyBudget: number): number {
+  if (monthlyBudget <= 0) return 0;
+
+  const months = Math.ceil(price / monthlyBudget);
+
+  return months > MAX_PLAN_MONTHS ? 0 : months;
+}
+
+/** The smallest monthly figure that clears this device inside the longest tenor. */
+export function minimumMonthlyFor(price: number): number {
+  return monthlyOver(price, MAX_PLAN_MONTHS);
+}
+
+/** The application link for one device, one budget and the tenor it implies. */
+export function monthlyPayApplyUrl(
+  slug: string,
+  months: number,
+  budget: number,
+): string {
+  const query = new URLSearchParams({
+    device: slug,
+    months: String(months),
+    budget: String(budget),
+  });
+
+  return `${MONTHLY_PAY_APPLY}?${query}`;
+}

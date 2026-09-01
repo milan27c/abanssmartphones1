@@ -4,7 +4,8 @@
  * pointing at nothing.
  */
 export const productSectionIds = {
-  easyPayments: "easy-payments",
+  cardPayments: "card-payments",
+  abansEasyPayments: "abans-easy-payments",
   features: "features",
   specs: "specs",
   faq: "faq",
@@ -26,7 +27,8 @@ export interface ProductSectionLink {
 }
 
 export const productSections: ProductSectionLink[] = [
-  { id: productSectionIds.easyPayments, label: "Easy Payments" },
+  { id: productSectionIds.cardPayments, label: "Card Payments" },
+  { id: productSectionIds.abansEasyPayments, label: "Abans Easy Payments" },
   { id: productSectionIds.features, label: "Features" },
   { id: productSectionIds.specs, label: "Specs" },
   { id: productSectionIds.faq, label: "FAQ" },

@@ -9,21 +9,21 @@ import { Reveal } from "@/components/motion/Reveal";
 import { PlanDialog } from "@/components/product/PlanDialog";
 import { cn } from "@/lib/cn";
 import { banks, headlinePlan } from "@/lib/data/banks";
-import { planMonthly, paymentPartners } from "@/lib/data/payment";
+import { planMonthly } from "@/lib/data/payment";
 import { splitLKR } from "@/lib/format";
 
-export interface InstalmentPlansProps {
+export interface CardPaymentsProps {
   /** Every figure on this section is priced against this product. */
   price: number;
   id?: string;
 }
 
 /**
- * What the phone costs per month, everywhere it can be spread. The bank rail
- * quotes each partner's longest tenor; opening one prices every tenor it runs
- * in a dialog.
+ * What the phone costs per month on a bank card. The rail quotes each
+ * partner's longest tenor; opening one prices every tenor it runs in a dialog.
+ * Abans' own plans are a section of their own — see `AbansEasyPayments`.
  */
-export function InstalmentPlans({ price, id }: InstalmentPlansProps) {
+export function CardPayments({ price, id }: CardPaymentsProps) {
   const [openBankId, setOpenBankId] = useState<string | null>(null);
 
   const openBank = banks.find((bank) => bank.id === openBankId) ?? null;
@@ -31,19 +31,19 @@ export function InstalmentPlans({ price, id }: InstalmentPlansProps) {
   return (
     <Section
       id={id}
-      aria-labelledby="instalments-title"
+      aria-labelledby="card-payments-title"
       size="compact"
       className="scroll-anchor"
     >
       <Container>
         <Reveal className="rounded-xl bg-surface p-6 sm:p-8 lg:p-10">
-          <h2 id="instalments-title" className="text-h3 text-ink-1">
-            Easy Payments / Instalment Plans
+          <h2 id="card-payments-title" className="text-h3 text-ink-1">
+            Card Payments
           </h2>
-          <p className="mt-3 max-w-[80ch] text-body-sm text-ink-3">
-            Spread this purchase across instalments with any participating bank
-            card. Monthly figures are indicative and confirmed at checkout —
-            tap a bank to see every tenor it runs, priced against this product.
+          <p className="mt-3 text-body-sm text-ink-3">
+            Pay by credit card, then convert to equal monthly instalments with
+            your bank. Tap a card for every tenor it runs, priced against this
+            product.
           </p>
 
           {/* -- Bank rail -------------------------------------------------- */}
@@ -92,47 +92,6 @@ export function InstalmentPlans({ price, id }: InstalmentPlansProps) {
                 </li>
               );
             })}
-          </ul>
-
-          {/* -- Abans' own plans ------------------------------------------- */}
-          <h3 className="mt-12 text-h4 text-ink-1">
-            Abans Easy Payment Options
-          </h3>
-
-          <ul className="mt-5 grid gap-4 sm:grid-cols-3">
-            {paymentPartners.map((partner) => (
-              <li
-                key={partner.id}
-                className="flex items-center gap-4 rounded-lg border border-line bg-surface-alt p-4"
-              >
-                <span
-                  className={cn(
-                    "flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface",
-                    !partner.bleed && "p-1.5",
-                  )}
-                >
-                  <Image
-                    src={partner.logo}
-                    alt=""
-                    sizes="48px"
-                    placeholder="blur"
-                    className={cn(
-                      "h-full w-full",
-                      partner.bleed ? "object-cover" : "object-contain",
-                    )}
-                  />
-                </span>
-
-                <span className="min-w-0">
-                  <span className="block text-body text-ink-1">
-                    {partner.name}
-                  </span>
-                  <span className="block text-body-sm text-ink-3">
-                    {partner.tagline}
-                  </span>
-                </span>
-              </li>
-            ))}
           </ul>
         </Reveal>
       </Container>
