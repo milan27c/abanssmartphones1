@@ -60,10 +60,15 @@ export function ProductRail() {
     [reduced],
   );
 
-  // The video that follows is a visual of its own, so the seam between them
-  // runs on the tightened half rhythm rather than a full section gap.
+  // The offer tiles above close on the compact rhythm and are a full-bleed
+  // wall of their own, so from `md` this seam opens on the half rhythm too —
+  // a full section gap on top of that reads as a hole. The video that follows
+  // is likewise a visual of its own, so the bottom seam runs half everywhere.
   return (
-    <Section aria-labelledby="new-arrivals-title" className="pb-section-half">
+    <Section
+      aria-labelledby="new-arrivals-title"
+      className="pb-section-half md:pt-section-half"
+    >
       <Container>
         <Reveal className="flex flex-col items-center gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeader
