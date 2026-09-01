@@ -6,7 +6,14 @@ import { brands } from "@/lib/data/brands";
 
 export function BrandMarquee() {
   return (
-    <Section size="compact" aria-label="Brands We Carry">
+    // The marquee closes straight into Best Sellers, whose own top rhythm
+    // carries most of that seam — so the band's bottom sits a step tighter
+    // on mobile.
+    <Section
+      size="compact"
+      aria-label="Brands We Carry"
+      className="max-md:pb-10"
+    >
       {/* The visual track is decorative and duplicated, so it stays out of the
           accessibility tree — the real list of brands follows below it. */}
       <div className="marquee-fade group relative overflow-hidden" aria-hidden="true">
@@ -23,7 +30,7 @@ export function BrandMarquee() {
                     alt=""
                     placeholder="blur"
                     sizes="176px"
-                    className="h-full w-full object-contain opacity-60 grayscale transition-[filter,opacity] transition-base group-hover/tile:opacity-100 group-hover/tile:grayscale-0"
+                    className="h-full w-full object-contain transition-[filter,opacity] transition-base lg:opacity-60 lg:grayscale lg:group-hover/tile:opacity-100 lg:group-hover/tile:grayscale-0"
                   />
                 </div>
               ))}

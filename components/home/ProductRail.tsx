@@ -7,12 +7,7 @@ import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid } from "@/components/product/ProductGrid";
-import { Button } from "@/components/ui/Button";
-import {
-  ArrowRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@/components/ui/Icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/Icons";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/cn";
@@ -65,8 +60,10 @@ export function ProductRail() {
     [reduced],
   );
 
+  // The video that follows is a visual of its own, so the seam between them
+  // runs on the tightened half rhythm rather than a full section gap.
   return (
-    <Section aria-labelledby="new-arrivals-title">
+    <Section aria-labelledby="new-arrivals-title" className="pb-section-half">
       <Container>
         <Reveal className="flex flex-col items-center gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeader
@@ -122,13 +119,6 @@ export function ProductRail() {
           </li>
         ))}
       </ul>
-
-      <Container className="mt-12 flex justify-center">
-        <Button href="/products" variant="secondary" className="group">
-          View All Products
-          <ArrowRightIcon className="size-4 transition-transform transition-fast group-hover:translate-x-0.5" />
-        </Button>
-      </Container>
     </Section>
   );
 }

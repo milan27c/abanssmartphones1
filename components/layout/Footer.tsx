@@ -88,11 +88,11 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:gap-x-10 lg:col-span-8 lg:grid-cols-4">
             {footerColumns.map((column) => (
               <nav key={column.title} aria-label={column.title}>
                 <h2 className="text-body-sm text-on-dark-1">{column.title}</h2>
-                <ul className="mt-6 flex flex-col gap-4">
+                <ul className="mt-5 flex flex-col gap-3 lg:mt-6 lg:gap-4">
                   {column.links.map((link) => (
                     <li key={link.href}>
                       <Link

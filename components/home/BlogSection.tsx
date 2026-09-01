@@ -16,7 +16,13 @@ export function BlogSection() {
     <Section aria-labelledby="blog-title">
       <Container>
         <Reveal>
-          <SectionHeader titleId="blog-title" title="Latest Posts" />
+          <SectionHeader
+            titleId="blog-title"
+            title="Latest Posts"
+            action={{ label: "Read All Posts", href: "/blog" }}
+            actionVariant="secondary"
+            actionClassName="max-lg:hidden lg:inline-flex"
+          />
         </Reveal>
 
         <Stagger as="ul" className="mt-12 grid gap-grid-gap md:grid-cols-3">
@@ -27,8 +33,9 @@ export function BlogSection() {
           ))}
         </Stagger>
 
-        {/* The way out of the section sits under the posts it belongs to. */}
-        <div className="mt-12 flex justify-center">
+        {/* Below `lg` the way out sits under the posts; from `lg` it moves up
+            beside the heading. */}
+        <div className="mt-12 flex justify-center lg:hidden">
           <Button href="/blog" variant="secondary">
             Read All Posts
           </Button>

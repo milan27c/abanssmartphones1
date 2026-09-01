@@ -11,6 +11,8 @@ import { brands } from "@/lib/data/brands";
 import { primaryNav } from "@/lib/data/nav";
 import { duration, easeOut, sheetLink, stagger } from "@/lib/motion";
 
+import logo from "@/public/images/logo.png";
+
 interface MobileMenuProps {
   open: boolean;
   onClose: () => void;
@@ -56,7 +58,22 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           exit={{ opacity: 0, y: reduced ? 0 : -12 }}
           transition={{ duration: duration.base, ease: easeOut }}
         >
-          <div className="container-page flex h-16 shrink-0 items-center justify-end">
+          <div className="container-page flex h-16 shrink-0 items-center justify-between">
+            <Link
+              href="/"
+              onClick={onClose}
+              aria-label="Abans Smartphones — Home"
+              className="shrink-0"
+            >
+              <Image
+                src={logo}
+                alt="Abans Smartphones"
+                placeholder="blur"
+                className="h-7 w-auto"
+                sizes="150px"
+              />
+            </Link>
+
             <button
               type="button"
               onClick={onClose}

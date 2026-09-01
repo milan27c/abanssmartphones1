@@ -23,7 +23,12 @@ export function ProductSummary({
 }: ProductSummaryProps) {
   return (
     <div className={cn("flex flex-col", className)}>
-      <h1 className="text-h1 text-ink-1">{product.title}</h1>
+      {/* Headings balance their lines by default, which breaks a long product
+          name early and leaves the column half empty. This one fills the
+          measure instead. */}
+      <h1 className="text-product-title text-ink-1 text-pretty">
+        {product.title}
+      </h1>
 
       <PriceBlock
         price={product.price}

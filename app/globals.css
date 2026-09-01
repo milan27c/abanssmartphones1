@@ -74,6 +74,14 @@
   --text-h1--letter-spacing: -0.025em;
   --text-h1--font-weight: 600;
 
+  /* The detail page's product name. A long title sitting in a half-width
+     column reads heavy at the full `h1` cap, so it tops out a step lower;
+     below ~1067px it is identical to `h1`. */
+  --text-product-title: clamp(2rem, 4.5vw, 3rem);
+  --text-product-title--line-height: 1.1;
+  --text-product-title--letter-spacing: -0.025em;
+  --text-product-title--font-weight: 600;
+
   --text-h2: clamp(1.75rem, 3.2vw, 2.5rem);
   --text-h2--line-height: 1.12;
   --text-h2--letter-spacing: -0.02em;
@@ -157,6 +165,17 @@
    ========================================================================= */
 
 @layer base {
+  /* The section rhythm's clamps bottom out well before phone widths, so a
+     375px seam ends up almost as tall as a 1440px one. Below `md` the scale
+     steps down; the desktop rhythm is untouched. */
+  @media (width < 48rem) {
+    :root {
+      --spacing-section: 3.25rem;
+      --spacing-section-sm: 3.125rem;
+      --spacing-section-half: 2.75rem;
+    }
+  }
+
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;

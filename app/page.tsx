@@ -7,6 +7,7 @@ import { LimitedTimeDeals } from "@/components/home/LimitedTimeDeals";
 import { OfferStrip } from "@/components/home/OfferStrip";
 import { PayEasy } from "@/components/home/PayEasy";
 import { ProductRail } from "@/components/home/ProductRail";
+import { VideoFeature } from "@/components/home/VideoFeature";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
       <LimitedTimeDeals />
       <OfferStrip />
       <ProductRail />
+      <VideoFeature />
       <PayEasy />
       <BlogSection />
     </>

@@ -119,7 +119,7 @@ export function Navbar() {
               alt="Abans Smartphones"
               priority
               placeholder="blur"
-              className="h-7 w-auto lg:h-8"
+              className="h-8 w-auto lg:h-9"
               sizes="150px"
             />
           </Link>

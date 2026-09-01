@@ -239,3 +239,17 @@ export interface ProductDetail {
   specGroups: SpecGroup[];
   faqs: Faq[];
 }
+
+/**
+ * A YouTube feature embedded on a page. The poster is a local asset so the
+ * facade paints from our own origin — nothing loads from YouTube until the
+ * visitor actually asks to play.
+ */
+export interface VideoFeature {
+  /** The `v` parameter from the watch URL. */
+  youtubeId: string;
+  /** The video's own title, used for the iframe and the play control. */
+  title: string;
+  poster: StaticImageData;
+  posterAlt: string;
+}
