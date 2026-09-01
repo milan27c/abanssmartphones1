@@ -1,9 +1,9 @@
 import type { HeroSlide, Offer } from "@/lib/types";
 
-import hero1 from "@/public/images/hero/herosection1.png";
+import hero1 from "@/public/images/hero/hero-section-2B.png";
 import hero1m from "@/public/images/hero/hero-section-Mobile.png";
-import hero2 from "@/public/images/hero/hero2.png";
-import hero2m from "@/public/images/hero/hero2m.png";
+import hero2 from "@/public/images/hero/hero-section-3B.png";
+import hero2m from "@/public/images/hero/hero-section-Mobile-2.png";
 import hero3 from "@/public/images/hero/hero3.png";
 import hero3m from "@/public/images/hero/hero3m.png";
 import hero4 from "@/public/images/hero/hero4.png";
@@ -27,12 +27,12 @@ export const heroSlides: HeroSlide[] = [
     indicatorLabel: "12-Month Instalments",
   },
   {
-    id: "oppo-reno15",
-    alt: "OPPO Reno15 Series. Own the aura. Reno15 and Reno15F, now at Abans.",
+    id: "realme-15-pro",
+    alt: "realme 15 Pro 5G. Live real in every shot — triple 50MP AI cameras, Snapdragon 7 Gen 4 and a 7000mAh battery with 80W SUPERVOOC charging.",
     desktop: hero2,
     mobile: hero2m,
-    href: "/products?brand=oppo",
-    indicatorLabel: "OPPO Reno15 Series",
+    href: "/products?brand=realme",
+    indicatorLabel: "realme 15 Pro",
   },
   {
     id: "redmi-15c",
