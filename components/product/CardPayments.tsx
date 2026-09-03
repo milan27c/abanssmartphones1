@@ -12,6 +12,14 @@ import { banks, headlinePlan } from "@/lib/data/banks";
 import { planMonthly } from "@/lib/data/payment";
 import { splitLKR } from "@/lib/format";
 
+/**
+ * Plan pricing is withheld for now: the rail shows a bank and the tenor it
+ * runs, nothing more. Flip this to `true` to bring back the monthly figure,
+ * the "View Plans" action and the tenor dialog behind it — all three stay in
+ * this file, and stay type-checked, so restoring them is a one-line change.
+ */
+const SHOW_PLAN_PRICING = false;
+
 export interface CardPaymentsProps {
   /** Every figure on this section is priced against this product. */
   price: number;
@@ -41,9 +49,9 @@ export function CardPayments({ price, id }: CardPaymentsProps) {
             Card Payments
           </h2>
           <p className="mt-3 text-body-sm text-ink-3">
-            Pay by credit card, then convert to equal monthly instalments with
-            your bank. Tap a card for every tenor it runs, priced against this
-            product.
+            {SHOW_PLAN_PRICING
+              ? "Pay by credit card, then convert to equal monthly instalments with your bank. Tap a card for every tenor it runs, priced against this product."
+              : "Pay by credit card, then convert to equal monthly instalments with your bank. Here is the longest tenor each partner runs."}
           </p>
 
           {/* -- Bank rail -------------------------------------------------- */}
@@ -54,41 +62,67 @@ export function CardPayments({ price, id }: CardPaymentsProps) {
             {banks.map((bank) => {
               const plan = headlinePlan(bank);
 
-              return (
-                <li key={bank.id} className="bank-item">
-                  <button
-                    type="button"
-                    aria-haspopup="dialog"
-                    onClick={() => setOpenBankId(bank.id)}
+              // Logo over tenor. With pricing off there is nothing to open, so
+              // the plate is inert and the tenor centres under the mark.
+              const content = (
+                <>
+                  <span className="flex h-9 items-center justify-center border-b border-line pb-3">
+                    <Image
+                      src={bank.logo}
+                      alt={bank.name}
+                      sizes="140px"
+                      placeholder="blur"
+                      className="max-h-full w-auto object-contain"
+                    />
+                  </span>
+
+                  <span
                     className={cn(
-                      "flex h-full w-full flex-col rounded-lg border border-line bg-surface-alt p-4 text-left",
-                      // No lift and no scale — a card that jumps under the
-                      // cursor reads as a glitch. The plate simply gains a
-                      // firmer edge and a soft shadow, eased at both ends.
-                      "shadow-sm transition-[border-color,box-shadow] transition-smooth",
-                      "hover:border-line-strong hover:shadow-md",
+                      "mt-4 block text-body-sm text-ink-3",
+                      !SHOW_PLAN_PRICING && "text-center",
                     )}
                   >
-                    <span className="flex h-9 items-center justify-center border-b border-line pb-3">
-                      <Image
-                        src={bank.logo}
-                        alt={bank.name}
-                        sizes="140px"
-                        placeholder="blur"
-                        className="max-h-full w-auto object-contain"
+                    Up To {plan.months} Months
+                  </span>
+
+                  {SHOW_PLAN_PRICING && (
+                    <>
+                      <Monthly
+                        amount={planMonthly(price, plan)}
+                        className="mt-1"
                       />
-                    </span>
 
-                    <span className="mt-4 block text-body-sm text-ink-3">
-                      Up To {plan.months} Months
-                    </span>
+                      <span className="mt-3 block text-body-sm font-medium text-primary-600">
+                        View Plans
+                      </span>
+                    </>
+                  )}
+                </>
+              );
 
-                    <Monthly amount={planMonthly(price, plan)} className="mt-1" />
+              const plate = cn(
+                "flex h-full w-full flex-col rounded-lg border border-line bg-surface-alt p-4 text-left",
+                // No lift and no scale — a card that jumps under the
+                // cursor reads as a glitch. The plate simply gains a
+                // firmer edge and a soft shadow, eased at both ends.
+                "shadow-sm transition-[border-color,box-shadow] transition-smooth",
+                SHOW_PLAN_PRICING && "hover:border-line-strong hover:shadow-md",
+              );
 
-                    <span className="mt-3 block text-body-sm font-medium text-primary-600">
-                      View Plans
-                    </span>
-                  </button>
+              return (
+                <li key={bank.id} className="bank-item">
+                  {SHOW_PLAN_PRICING ? (
+                    <button
+                      type="button"
+                      aria-haspopup="dialog"
+                      onClick={() => setOpenBankId(bank.id)}
+                      className={plate}
+                    >
+                      {content}
+                    </button>
+                  ) : (
+                    <div className={plate}>{content}</div>
+                  )}
                 </li>
               );
             })}
@@ -96,11 +130,13 @@ export function CardPayments({ price, id }: CardPaymentsProps) {
         </Reveal>
       </Container>
 
-      <PlanDialog
-        bank={openBank}
-        price={price}
-        onClose={() => setOpenBankId(null)}
-      />
+      {SHOW_PLAN_PRICING && (
+        <PlanDialog
+          bank={openBank}
+          price={price}
+          onClose={() => setOpenBankId(null)}
+        />
+      )}
     </Section>
   );
 }
