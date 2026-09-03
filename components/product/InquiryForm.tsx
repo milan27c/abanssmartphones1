@@ -26,8 +26,10 @@ const field =
 const label = "block text-body-sm text-ink-3";
 
 /**
- * A question about this specific product. No backend in the prototype — the
- * form validates, then acknowledges.
+ * A call-back request for this specific product: the shopper leaves a number,
+ * a specialist rings them. Every line of copy here promises that call, because
+ * the fold's "Get A Call" button is what sends people down to it. No backend in
+ * the prototype — the form validates, then acknowledges.
  */
 export function InquiryForm({
   productTitle,
@@ -57,16 +59,16 @@ export function InquiryForm({
       </div>
 
       <Container className="relative">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal>
             <h2 id="inquiry-title" className="text-h2 text-white">
-              Have An Inquiry Regarding This Product?
+              Would You Like A Call About This Product?
             </h2>
 
             <p className="mt-5 max-w-[55ch] text-body-lg text-on-dark-2">
-              Stock at a particular showroom, trade-in value, instalment tenors,
-              or which variant suits you — send it across and a product
-              specialist replies within one working day.
+              Leave your number and a product specialist calls you back within
+              one working day — stock at your nearest showroom, trade-in value,
+              instalment tenors, or which variant suits you.
             </p>
 
             <dl className="mt-10 grid gap-4 text-body-sm">
@@ -101,7 +103,7 @@ export function InquiryForm({
           <Reveal delay={0.06}>
             <div className="rounded-xl bg-surface-alt p-6 shadow-sm sm:p-8">
               <p className="text-body-sm text-ink-3">
-                Regarding{" "}
+                A Call Back Regarding{" "}
                 <span className="text-ink-1">{productTitle}</span>{" "}
                 <span className="text-ink-4">({productCode})</span>
               </p>
@@ -113,9 +115,9 @@ export function InquiryForm({
                 >
                   <CheckIcon className="mt-0.5 size-5 shrink-0 text-primary-600" />
                   <p className="text-body-sm text-ink-2">
-                    Thank you — your inquiry is with the team. Expect a reply
-                    within one working day, or call the hotline if it is
-                    urgent.
+                    Thank you — a product specialist will call you on the
+                    number you left, within one working day. In a hurry? Ring
+                    the hotline on {contactChannels.hotline.label}.
                   </p>
                 </div>
               ) : (
@@ -138,13 +140,12 @@ export function InquiryForm({
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor={`${ids}-email`} className={label}>
-                        Email
+                        Email (Optional)
                       </label>
                       <input
                         id={`${ids}-email`}
                         name="email"
                         type="email"
-                        required
                         autoComplete="email"
                         placeholder="you@example.com"
                         className={cn(field, "mt-2")}
@@ -153,12 +154,13 @@ export function InquiryForm({
 
                     <div>
                       <label htmlFor={`${ids}-phone`} className={label}>
-                        Phone
+                        Phone Number To Call
                       </label>
                       <input
                         id={`${ids}-phone`}
                         name="phone"
                         type="tel"
+                        required
                         autoComplete="tel"
                         placeholder="07X XXX XXXX"
                         className={cn(field, "mt-2")}
@@ -168,7 +170,7 @@ export function InquiryForm({
 
                   <div>
                     <label htmlFor={`${ids}-message`} className={label}>
-                      Your Question
+                      What Would You Like To Know?
                     </label>
                     <textarea
                       id={`${ids}-message`}
@@ -183,9 +185,15 @@ export function InquiryForm({
                     />
                   </div>
 
-                  <Button type="submit" className="justify-self-start">
-                    Send Inquiry
-                  </Button>
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                    <Button type="submit">
+                      <PhoneIcon className="size-5" />
+                      Request A Call
+                    </Button>
+                    <p className="text-body-sm text-ink-3">
+                      We call within one working day.
+                    </p>
+                  </div>
                 </form>
               )}
             </div>
