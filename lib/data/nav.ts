@@ -6,17 +6,23 @@ import type {
   SocialLink,
 } from "@/lib/types";
 
-export const primaryNav: NavLink[] = [
+const allPrimaryNav: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Smartphones", href: "/products?category=smartphones" },
   { label: "Accessories", href: "/products?category=accessories" },
   {
     label: "Pay Monthly",
     href: "https://abansmonthlypay.vercel.app/",
+    hidden: true,
   },
   { label: "Offers", href: "/products?filter=offers" },
   { label: "Contact", href: "/contact" },
 ];
+
+/** Flip a link's `hidden` flag in `allPrimaryNav` to bring it back. */
+export const primaryNav: NavLink[] = allPrimaryNav.filter(
+  (link) => !link.hidden,
+);
 
 export const announcements: string[] = [
   "Free island-wide delivery on orders over LKR 25,000",
@@ -36,7 +42,7 @@ const footerBrandSlugs = [
   "tecno",
 ];
 
-export const footerColumns: FooterColumn[] = [
+const allFooterColumns: FooterColumn[] = [
   {
     title: "Brands",
     links: footerBrandSlugs.map((slug) => ({
@@ -60,7 +66,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Warranty", href: "/support/warranty" },
       { label: "Service Centres", href: "/support/service-centres" },
       { label: "Delivery", href: "/support/delivery" },
-      { label: "Payment Plans", href: "/support/payment-plans" },
+      { label: "Payment Plans", href: "/support/payment-plans", hidden: true },
       { label: "FAQs", href: "/support/faqs" },
     ],
   },
@@ -75,6 +81,12 @@ export const footerColumns: FooterColumn[] = [
     ],
   },
 ];
+
+/** Flip a link's `hidden` flag in `allFooterColumns` to bring it back. */
+export const footerColumns: FooterColumn[] = allFooterColumns.map((column) => ({
+  ...column,
+  links: column.links.filter((link) => !link.hidden),
+}));
 
 export const footerContact: FooterContactItem[] = [
   {

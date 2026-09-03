@@ -108,6 +108,8 @@ export interface NavLink {
   href: string;
   /** Absolute URL to an external site — opens in a new tab. */
   external?: boolean;
+  /** Kept in the data but withheld from the nav it belongs to. */
+  hidden?: boolean;
 }
 
 export interface FooterColumn {
