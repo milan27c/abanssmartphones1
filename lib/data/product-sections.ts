@@ -26,9 +26,23 @@ export interface ProductSectionLink {
   label: string;
 }
 
+/**
+ * The Abans Easy Payments section is withheld for now. This one flag governs
+ * both the section on the product page and its link in the sub-nav, so the two
+ * cannot drift — flip it to `true` to bring the section back.
+ */
+export const SHOW_ABANS_EASY_PAYMENTS = false;
+
 export const productSections: ProductSectionLink[] = [
   { id: productSectionIds.cardPayments, label: "Card Payments" },
-  { id: productSectionIds.abansEasyPayments, label: "Abans Easy Payments" },
+  ...(SHOW_ABANS_EASY_PAYMENTS
+    ? [
+        {
+          id: productSectionIds.abansEasyPayments,
+          label: "Abans Easy Payments",
+        },
+      ]
+    : []),
   { id: productSectionIds.features, label: "Features" },
   { id: productSectionIds.specs, label: "Specs" },
   { id: productSectionIds.faq, label: "FAQ" },

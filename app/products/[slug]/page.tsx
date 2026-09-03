@@ -22,7 +22,10 @@ import {
   relatedProducts,
 } from "@/lib/data/catalog";
 import { getProductDetail } from "@/lib/data/product-detail";
-import { productSectionIds } from "@/lib/data/product-sections";
+import {
+  productSectionIds,
+  SHOW_ABANS_EASY_PAYMENTS,
+} from "@/lib/data/product-sections";
 
 export function generateStaticParams() {
   return catalog.map((product) => ({ slug: product.slug }));
@@ -108,11 +111,13 @@ export default async function ProductPage(
         price={product.price}
       />
 
-      <AbansEasyPayments
-        id={productSectionIds.abansEasyPayments}
-        price={product.price}
-        slug={product.slug}
-      />
+      {SHOW_ABANS_EASY_PAYMENTS && (
+        <AbansEasyPayments
+          id={productSectionIds.abansEasyPayments}
+          price={product.price}
+          slug={product.slug}
+        />
+      )}
 
       <KeyFeatures
         id={productSectionIds.features}
