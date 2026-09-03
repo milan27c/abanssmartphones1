@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/Icons";
 import { cn } from "@/lib/cn";
 import { contactChannels } from "@/lib/data/nav";
+import { productSectionIds } from "@/lib/data/product-sections";
 
 export interface BuyCtaProps {
   /** Outbound handoff to the Abans storefront. */
@@ -24,7 +25,8 @@ export interface BuyCtaProps {
 /**
  * The purchase block. Buying happens on the Abans storefront, so the primary
  * action leaves the site — the two channel buttons under it are what keep a
- * shopper here when they have a question first.
+ * shopper here when they have a question first: WhatsApp for an instant reply,
+ * or a jump down to the inquiry form to ask for a call back.
  */
 export function BuyCta({
   buyUrl,
@@ -57,9 +59,13 @@ export function BuyCta({
           WhatsApp
         </Button>
 
-        <Button href={contactChannels.hotline.href} variant="secondary" size="lg">
+        <Button
+          href={`#${productSectionIds.inquiry}`}
+          variant="secondary"
+          size="lg"
+        >
           <PhoneIcon className="size-5" />
-          Contact
+          Get A Call
         </Button>
       </div>
 
