@@ -7,9 +7,16 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
-import { CheckIcon, MailIcon, PhoneIcon } from "@/components/ui/Icons";
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  MailIcon,
+  PhoneIcon,
+} from "@/components/ui/Icons";
 import { cn } from "@/lib/cn";
+import { districts } from "@/lib/data/locations";
 import { contactChannels } from "@/lib/data/nav";
+import { productShortName } from "@/lib/format";
 
 export interface InquiryFormProps {
   /** Named back to the visitor so they can see what the message is about. */
@@ -18,18 +25,22 @@ export interface InquiryFormProps {
   id?: string;
 }
 
-const field =
-  "h-12 w-full rounded-md border border-line-strong bg-surface-alt px-4 text-body text-ink-1 " +
+// Split so the district select can set its own text colour — an empty select
+// greys out — without two colour utilities fighting over the same element.
+const fieldBase =
+  "h-12 w-full rounded-md border border-line-strong bg-surface-alt px-4 text-body " +
   "transition-colors transition-fast placeholder:text-ink-4 hover:border-ink-4 focus:border-ink-1 focus:outline-none " +
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400";
+
+const field = `${fieldBase} text-ink-1`;
 
 const label = "block text-body-sm text-ink-3";
 
 /**
- * A call-back request for this specific product: the shopper leaves a number,
- * a specialist rings them. Every line of copy here promises that call, because
- * the fold's "Get A Call" button is what sends people down to it. No backend in
- * the prototype — the form validates, then acknowledges.
+ * A call-back request for this specific product: the shopper leaves a number
+ * and where they are, a specialist rings them. Every line of copy here promises
+ * that call, because the fold's "Get A Call" button is what sends people down
+ * to it. No backend in the prototype — the form validates, then acknowledges.
  */
 export function InquiryForm({
   productTitle,
@@ -37,6 +48,9 @@ export function InquiryForm({
   id,
 }: InquiryFormProps) {
   const [sent, setSent] = useState(false);
+  // An unselected district has to look unselected, so the placeholder option
+  // greys out the way a text placeholder does.
+  const [district, setDistrict] = useState("");
   const ids = useId();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -61,8 +75,11 @@ export function InquiryForm({
       <Container className="relative">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal>
-            <h2 id="inquiry-title" className="text-h2 text-white">
-              Would You Like A Call About This Product?
+            <h2
+              id="inquiry-title"
+              className="max-w-[20ch] text-balance text-h2 text-white"
+            >
+              Would You Like A Call About The {productShortName(productTitle)}?
             </h2>
 
             <p className="mt-5 max-w-[55ch] text-body-lg text-on-dark-2">
@@ -139,22 +156,8 @@ export function InquiryForm({
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
-                      <label htmlFor={`${ids}-email`} className={label}>
-                        Email (Optional)
-                      </label>
-                      <input
-                        id={`${ids}-email`}
-                        name="email"
-                        type="email"
-                        autoComplete="email"
-                        placeholder="you@example.com"
-                        className={cn(field, "mt-2")}
-                      />
-                    </div>
-
-                    <div>
                       <label htmlFor={`${ids}-phone`} className={label}>
-                        Phone Number To Call
+                        Phone Number
                       </label>
                       <input
                         id={`${ids}-phone`}
@@ -166,23 +169,69 @@ export function InquiryForm({
                         className={cn(field, "mt-2")}
                       />
                     </div>
+
+                    <div>
+                      <label htmlFor={`${ids}-email`} className={label}>
+                        Email
+                      </label>
+                      <input
+                        id={`${ids}-email`}
+                        name="email"
+                        type="email"
+                        required
+                        autoComplete="email"
+                        placeholder="you@example.com"
+                        className={cn(field, "mt-2")}
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <label htmlFor={`${ids}-message`} className={label}>
-                      What Would You Like To Know?
-                    </label>
-                    <textarea
-                      id={`${ids}-message`}
-                      name="message"
-                      required
-                      rows={4}
-                      placeholder="Is this in stock at the Kandy showroom?"
-                      className={cn(
-                        field,
-                        "mt-2 h-auto resize-y py-3 leading-relaxed",
-                      )}
-                    />
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor={`${ids}-district`} className={label}>
+                        District
+                      </label>
+                      <div className="relative mt-2">
+                        <select
+                          id={`${ids}-district`}
+                          name="district"
+                          required
+                          value={district}
+                          onChange={(event) => setDistrict(event.target.value)}
+                          className={cn(
+                            fieldBase,
+                            "select-reset cursor-pointer pr-11",
+                            district ? "text-ink-1" : "text-ink-4",
+                          )}
+                        >
+                          <option value="" disabled>
+                            Select A District
+                          </option>
+                          {districts.map((name) => (
+                            <option key={name} value={name}>
+                              {name}
+                            </option>
+                          ))}
+                        </select>
+
+                        <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-ink-3" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor={`${ids}-city`} className={label}>
+                        City
+                      </label>
+                      <input
+                        id={`${ids}-city`}
+                        name="city"
+                        type="text"
+                        required
+                        autoComplete="address-level2"
+                        placeholder="Nugegoda"
+                        className={cn(field, "mt-2")}
+                      />
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-x-5 gap-y-3">

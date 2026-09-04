@@ -70,3 +70,30 @@ export function formatDate(iso: string): string {
     timeZone: "UTC",
   });
 }
+
+/**
+ * The name a shopper would actually say out loud, taken off a full listing
+ * title: the variant tail — colour, capacity, the spec chunk merchandising
+ * bolts on — is dropped, so `Apple iPhone 17 Pro 256GB - Deep Blue` reads back
+ * as `Apple iPhone 17 Pro`. Use it in running copy only; anywhere the exact
+ * variant matters (order lines, the enquiry reference), print the full title.
+ */
+export function productShortName(title: string): string {
+  return (
+    title
+      // Colour tail: "… - Deep Blue". Spaces on both sides, so "On-Ear" stays.
+      .replace(/\s+[-–—]\s+[^-–—]*$/, "")
+      // Colour tail again, parenthesised: "… (Sky Blue)".
+      .replace(/\s*\([^)]*\)\s*$/, "")
+      // Trailing feature clause: "… with Wireless Charging Case".
+      .replace(/\s+with\s+.*$/i, "")
+      // Capacity: "256GB", "12GB + 512GB".
+      .replace(/\s*\b\d+\s*(GB|TB)\b(\s*\+\s*\d+\s*(GB|TB)\b)?/gi, "")
+      // Screen spec: "1.39 inch Round HD Screen".
+      .replace(/\s*\b\d+(\.\d+)?[- ]?inch\b.*?\bScreen\b/gi, "")
+      // Anything left in brackets mid-title: "Sudio (Sweden) A1".
+      .replace(/\s*\([^)]*\)/g, "")
+      .replace(/\s{2,}/g, " ")
+      .trim()
+  );
+}

@@ -161,7 +161,16 @@ export function Footer() {
       <div className="border-t border-on-dark-line">
         <Container className="flex flex-col items-center gap-4 py-6 text-center sm:flex-row sm:justify-between sm:text-left">
           <p className="text-body-sm text-on-dark-3">
-            &copy; {year} Abans PLC. All Rights Reserved.
+            &copy; {year} Abans PLC. All Rights Reserved. Powered By{" "}
+            <a
+              href="https://www.azbow.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline transition-colors transition-fast hover:text-white"
+            >
+              Azbow
+            </a>
+            .
           </p>
 
           <nav aria-label="Legal">
