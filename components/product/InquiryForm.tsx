@@ -48,9 +48,13 @@ export function InquiryForm({
   id,
 }: InquiryFormProps) {
   const [sent, setSent] = useState(false);
-  // An unselected district has to look unselected, so the placeholder option
-  // greys out the way a text placeholder does.
+  // An unselected select has to look unselected, so its placeholder option
+  // greys out the way a text placeholder does. The city list follows the
+  // district, so changing district clears whatever city was picked under it.
   const [district, setDistrict] = useState("");
+  const [city, setCity] = useState("");
+  const cities =
+    districts.find((entry) => entry.name === district)?.cities ?? [];
   const ids = useId();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -172,13 +176,12 @@ export function InquiryForm({
 
                     <div>
                       <label htmlFor={`${ids}-email`} className={label}>
-                        Email
+                        Email (Optional)
                       </label>
                       <input
                         id={`${ids}-email`}
                         name="email"
                         type="email"
-                        required
                         autoComplete="email"
                         placeholder="you@example.com"
                         className={cn(field, "mt-2")}
@@ -197,7 +200,10 @@ export function InquiryForm({
                           name="district"
                           required
                           value={district}
-                          onChange={(event) => setDistrict(event.target.value)}
+                          onChange={(event) => {
+                            setDistrict(event.target.value);
+                            setCity("");
+                          }}
                           className={cn(
                             fieldBase,
                             "select-reset cursor-pointer pr-11",
@@ -207,9 +213,9 @@ export function InquiryForm({
                           <option value="" disabled>
                             Select A District
                           </option>
-                          {districts.map((name) => (
-                            <option key={name} value={name}>
-                              {name}
+                          {districts.map((entry) => (
+                            <option key={entry.name} value={entry.name}>
+                              {entry.name}
                             </option>
                           ))}
                         </select>
@@ -220,17 +226,39 @@ export function InquiryForm({
 
                     <div>
                       <label htmlFor={`${ids}-city`} className={label}>
-                        City
+                        Nearest City
                       </label>
-                      <input
-                        id={`${ids}-city`}
-                        name="city"
-                        type="text"
-                        required
-                        autoComplete="address-level2"
-                        placeholder="Nugegoda"
-                        className={cn(field, "mt-2")}
-                      />
+                      <div className="relative mt-2">
+                        <select
+                          id={`${ids}-city`}
+                          name="city"
+                          required
+                          disabled={!district}
+                          value={city}
+                          onChange={(event) => setCity(event.target.value)}
+                          className={cn(
+                            fieldBase,
+                            "select-reset cursor-pointer pr-11",
+                            // `disabled:` outranks the base hover, so the
+                            // field stays visibly inert until a district is in.
+                            "disabled:cursor-not-allowed disabled:border-line disabled:bg-surface disabled:hover:border-line",
+                            city ? "text-ink-1" : "text-ink-4",
+                          )}
+                        >
+                          <option value="" disabled>
+                            {district
+                              ? "Select A City"
+                              : "Select A District First"}
+                          </option>
+                          {cities.map((name) => (
+                            <option key={name} value={name}>
+                              {name}
+                            </option>
+                          ))}
+                        </select>
+
+                        <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-ink-3" />
+                      </div>
                     </div>
                   </div>
 
